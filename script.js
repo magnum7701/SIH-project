@@ -109,12 +109,12 @@ console.log(ty)
 // askquestions();
 
 
-// const sendDataToServer = (result) => {
-//     console.log(result)
-//     const jasu = JSON.stringify(result)
-//     console.log(jasu)
-//     // send to server
-// }
+ const sendDataToServer = (result) => {
+    console.log(result)
+    const jasu = JSON.stringify(result)
+    console.log(jasu)
+    // send to server
+ }
 
 const askquestions = () => {
     const questions = ["What is the temperature of the region?", "What is the humidity level of the region?", "What is the soil moisture level?", "What is the soil type?", "What is the type of crop you wish to grow?", "What is the nitrogen content of the soil?", "What is the potassium content of the soil?", "What is the phosphorus content of the soil?"];
