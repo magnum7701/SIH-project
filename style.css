@@ -84,14 +84,16 @@ nav {
     gap: 30px;
 }
 
-.save{
+.save {
     height: 5vw;
     width: 14vw;
-    border:2px solid green;
+    border: 2px solid green;
     border-radius: 21px;
-    
-
+    margin-top: 19px;
+    padding: 13px;
+    font-size: 1rem;
 }
+
 .nav-links li a {
     text-decoration: none;
     color: #333;
@@ -327,8 +329,11 @@ button:hover {
 
 .chat_contain {
     overflow-y: scroll;
-    padding:22px;
-    margin:22px;
+
+}
+
+.chat_contain>div {
+    padding-top: 5%;
 }
 
 
@@ -508,4 +513,8 @@ body {
 
 .VIpgJd-ZVi9od-xl07Ob-lTBxed>span {
     color: red !important;
+}
+
+.input{
+    margin-top: 2.5%;
 }
