@@ -48,131 +48,76 @@ function googleTranslateElementInit() {
 const ty = document.querySelector('.VIpgJd-ZVi9od-xl07Ob-lTBxed > span')
 console.log(ty)
 
-
-
-// const askquestions = () => {
-//     const questions = ["What is the temperature of the region?", "What is the humidity level of the region?", "What is the soil moisture level?", "What is the soil type?", "What is the type of crop you wish to grow?", "What is the nitrogen content of the soil?", "What is the potassium content of the soil?", "What is the phosphorus content of the soil?"];
-//     const headings = ["Temperature", "Humidity", "Moisture", "Soil Type", "Crop Type", "Nitrogen", "Potassium", "Phosphorous", "Fertilizer"];
-//     const options = [[], [], [], ["Sandy", "Loamy", "Black", "Red", "Clayey", "Silty Clay", "Laterite", "Coastal", "Clayey Loam", "Alluvial"], ["Maize", "Sugarcane", "Cotton", "Tobacco", "Paddy", "Barley", "Wheat", "Millets", "Oil seeds", "Pulses", "Ground Nuts", "Rice", "Coconut"], [], [], []];
-//     const chat_inner = document.querySelector(".chat_contain");
-
-//     let i = 0;
-//     const result = {};
-
-//     const newQuestionFunc = (i) => {
-//         if (i < questions.length) {
-//             const newQuestion = document.createElement("p");
-//             newQuestion.textContent = questions[i];
-//             chat_inner.appendChild(newQuestion);
-
-//             let newTakeValue;
-//             if (options[i].length > 0) {
-//                 newTakeValue = document.createElement("select");
-//                 newTakeValue.className = "select";
-
-//                 for (let j = 0; j < options[i].length; j++) {
-//                     const newOption = document.createElement("option");
-//                     newOption.value = options[i][j];
-//                     newOption.textContent = options[i][j];
-//                     newTakeValue.appendChild(newOption);
-//                 }
-//             }
-
-//             else {
-//                 newTakeValue = document.createElement("input");
-//                 newTakeValue.type = "number";
-//                 newTakeValue.className = "input";
-//             }
-
-//             chat_inner.appendChild(newTakeValue);
-
-//             const newSave = document.createElement("button");
-//             newSave.textContent = "Save";
-//             newSave.className = "save";
-//             chat_inner.appendChild(newSave);
-
-//             newSave.addEventListener('click', () => {
-//                 result[headings[i]] = newTakeValue.value;
-//                 if (i < questions.length - 1) {
-//                     newQuestionFunc(i + 1);
-//                 }
-//                 else {
-//                     sendDataToServer(result);
-//                 }
-//             });
-//         }
-//     }
-
-//     newQuestionFunc(i);
-// };
-
-// askquestions();
-
-
- const sendDataToServer = (result) => {
-    console.log(result)
-    const jasu = JSON.stringify(result)
-    console.log(jasu)
-    // send to server
- }
+const sendDataToServer = (result) => {
+    console.log(result);
+    const json = JSON.stringify(result);
+    console.log(json);
+}
 
 const askquestions = () => {
     const questions = ["What is the temperature of the region?", "What is the humidity level of the region?", "What is the soil moisture level?", "What is the soil type?", "What is the type of crop you wish to grow?", "What is the nitrogen content of the soil?", "What is the potassium content of the soil?", "What is the phosphorus content of the soil?"];
     const headings = ["Temperature", "Humidity", "Moisture", "Soil Type", "Crop Type", "Nitrogen", "Potassium", "Phosphorous", "Fertilizer"];
     const options = [[], [], [], ["Sandy", "Loamy", "Black", "Red", "Clayey", "Silty Clay", "Laterite", "Coastal", "Clayey Loam", "Alluvial"], ["Maize", "Sugarcane", "Cotton", "Tobacco", "Paddy", "Barley", "Wheat", "Millets", "Oil seeds", "Pulses", "Ground Nuts", "Rice", "Coconut"], [], [], []];
     const chat_inner = document.querySelector(".chat_contain");
-
-    let i = 0;
     const result = {};
 
-    const newQuestionFunc = (i) => {
-        if (i < questions.length) {
-            const newQuestion = document.createElement("p");
-            newQuestion.textContent = questions[i];
-            const newDiv = document.createElement("div");
-            newDiv.appendChild(newQuestion)
+    const askNextQuestion = () => {
+        if (i >= questions.length) {
+            sendDataToServer(result);
+            return;
+        }
 
-            let newTakeValue;
-            if (options[i].length > 0) {
-                newTakeValue = document.createElement("select");
-                newTakeValue.className = "select";
+        const questionP = document.createElement("p");
+        questionP.textContent = questions[i];
 
-                for (let j = 0; j < options[i].length; j++) {
-                    const newOption = document.createElement("option");
-                    newOption.value = options[i][j];
-                    newOption.textContent = options[i][j];
-                    newTakeValue.appendChild(newOption);
-                }
+        let controlInput;
+        if (options[i].length == 0) {
+            controlInput = document.createElement("input");
+            controlInput.type = "number";
+            controlInput.className = "input";
+        }
+
+        else {
+            controlInput = document.createElement("select");
+            controlInput.className = "select";
+
+            for (let j = 0; j < options[i].length; j++) {
+                const optionInput = document.createElement("option");
+                optionInput.value = options[i][j];
+                optionInput.textContent = options[i][j];
+                controlInput.appendChild(optionInput);
             }
+        }
 
-            else {
-                newTakeValue = document.createElement("input");
-                newTakeValue.type = "number";
-                newTakeValue.className = "input";
-            }
+        const saveButton = document.createElement("button");
+        saveButton.type = "submit";
+        saveButton.textContent = (i == questions.length - 1) ? "Submit" : "Save";
+        saveButton.className = "save";
 
-            newDiv.appendChild(newTakeValue);
+        const saveForm = document.createElement("form");
+        saveForm.appendChild(questionP);
+        saveForm.appendChild(controlInput);
+        saveForm.appendChild(saveButton);
 
-            const newSave = document.createElement("button");
-            newSave.textContent = "Save";
-            newSave.className = "save";
-            newDiv.appendChild(newSave);
-            chat_inner.appendChild(newDiv);
+        chat_inner.appendChild(saveForm);
 
-            newSave.addEventListener('click', () => {
-                result[headings[i]] = newTakeValue.value;
-                if (i < questions.length - 1) {
-                    newQuestionFunc(i + 1);
-                }
-                else {
-                    sendDataToServer(result);
-                }
-            });
+        controlInput.autofocus = true;
+        controlInput.focus();
+
+        saveForm.onsubmit = (e) => {
+            saveButton.disabled = true;
+            controlInput.disabled = true;
+            result[headings[i]] = controlInput.value;
+
+            e.preventDefault();
+            i++;
+            askNextQuestion();
         }
     }
 
-    newQuestionFunc(i);
+
+    let i = 0;
+    askNextQuestion();
 };
 
 askquestions();
-
